@@ -1,61 +1,142 @@
 <template>
   <div class="hello">
+
+      <v-card
+    class="mx-auto"
+    color="#26c6da"
+    dark
+    max-width="400"
+  >
+    <v-card-title>
+      <v-icon
+        large
+        left
+      >
+        mdi-twitter
+      </v-icon>
+      <span class="title font-weight-light">Twitter</span>
+    </v-card-title>
+
+    <v-card-text class="headline font-weight-bold">
+      "Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well."
+    </v-card-text>
+
+    <v-card-actions>
+      <v-list-tile class="grow">
+        <v-list-tile-avatar color="grey darken-3">
+          <v-img
+            class="elevation-6"
+            src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+          ></v-img>
+        </v-list-tile-avatar>
+
+        <v-list-tile-content>
+          <v-list-tile-title>Evan You</v-list-tile-title>
+        </v-list-tile-content>
+
+        <v-layout
+          align-center
+          justify-end
+        >
+          <v-icon class="mr-1">mdi-heart</v-icon>
+          <span class="subheading mr-2">256</span>
+          <span class="mr-1">·</span>
+          <v-icon class="mr-1">mdi-share-variant</v-icon>
+          <span class="subheading">45</span>
+        </v-layout>
+      </v-list-tile>
+    </v-card-actions>
+  </v-card>
+
     <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-typescript" target="_blank" rel="noopener">typescript</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa" target="_blank" rel="noopener">pwa</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest" target="_blank" rel="noopener">unit-jest</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-e2e-cypress" target="_blank" rel="noopener">e2e-cypress</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+      <div v-for='entry in entries'>
+        <p>{{ entry }}</p>
+        <a :href=entry.id[0]>{{ entry.id[0] }}</a>
+        <p>{{ entry.updated[0] }}</p>
+        <p>{{ entry.published[0] }}</p>
+        <p>{{ entry.title[0] }}</p>
+
+
+        <VueMarkdown class='summary' :source="entry.summary[0].replace(/\r?\n/g, ' ')" />
+
+        <p>{{ entry.author[0] }}</p>
+        <div v-for='author in entry.author'>
+          <a>{{ author.name[0] }}</a>
+        </div>
+        <hr />
+      </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import {
+  Component,
+  Prop,
+  Vue,
+} from 'vue-property-decorator';
 
-@Component
+import axiosbase from 'axios';
+import VueMarkdown from 'vue-markdown';
+const parseString = require('xml2js').parseString;
+
+
+const axios = axiosbase.create({
+  baseURL: 'http://export.arxiv.org/api',
+
+});
+
+@Component({
+  components: {
+    VueMarkdown,
+  },
+})
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
+  private feed = {
+    entry: [],
+  };
+
+  get entries() {
+    return this.feed.entry;
+  }
+
+  public created() {
+    axios
+      .get('/query?search_query=all:electron&start=0&max_results=10')
+      .then((response) => {
+        parseString(response.data, (err: any, result: any) => {
+          console.log(result.feed);
+          this.feed = result.feed;
+        });
+      });
+  }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped lang="scss">
 h3 {
   margin: 40px 0 0;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 }
+
 li {
   display: inline-block;
   margin: 0 10px;
 }
+
 a {
   color: #42b983;
 }
+
+.summary {
+  text-align: left;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
 </style>

@@ -6,6 +6,9 @@ import './registerServiceWorker';
 
 Vue.config.productionTip = false;
 
+import 'katex/dist/katex.min.css';
+
+
 new Vue({
   router,
   store,
