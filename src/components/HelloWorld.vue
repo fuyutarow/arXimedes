@@ -1,70 +1,60 @@
 <template>
-  <div class="hello">
+  <div>
+    <v-toolbar color="pink" dark fixed>
+      <v-text-field v-model="search_query" v-on:keyup.enter='init();search();' class="mx-3" flat label="Search" prepend-inner-icon="search" solo-inverted></v-text-field>
+    </v-toolbar>
 
-      <v-card
-    class="mx-auto"
-    color="#26c6da"
-    dark
-    max-width="400"
-  >
-    <v-card-title>
-      <v-icon
-        large
-        left
-      >
-        mdi-twitter
-      </v-icon>
-      <span class="title font-weight-light">Twitter</span>
-    </v-card-title>
+    <v-container grid-list-xl>
+      <v-layout>
+        <v-flex>
+          <v-card dark color="primary">
+            <v-card-text>one</v-card-text>
+          </v-card>
+        </v-flex>
+        <v-flex>
+          <v-card dark color="secondary">
+            <v-card-text>two</v-card-text>
+          </v-card>
+        </v-flex>
+        <v-flex>
+          <v-card dark color="accent">
+            <v-card-text>three</v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
 
-    <v-card-text class="headline font-weight-bold">
-      "Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well."
-    </v-card-text>
-
-    <v-card-actions>
-      <v-list-tile class="grow">
-        <v-list-tile-avatar color="grey darken-3">
-          <v-img
-            class="elevation-6"
-            src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-          ></v-img>
-        </v-list-tile-avatar>
-
-        <v-list-tile-content>
-          <v-list-tile-title>Evan You</v-list-tile-title>
-        </v-list-tile-content>
-
-        <v-layout
-          align-center
-          justify-end
-        >
-          <v-icon class="mr-1">mdi-heart</v-icon>
-          <span class="subheading mr-2">256</span>
-          <span class="mr-1">·</span>
-          <v-icon class="mr-1">mdi-share-variant</v-icon>
-          <span class="subheading">45</span>
-        </v-layout>
-      </v-list-tile>
-    </v-card-actions>
-  </v-card>
-
-    <h1>{{ msg }}</h1>
-      <div v-for='entry in entries'>
-        <p>{{ entry }}</p>
-        <a :href=entry.id[0]>{{ entry.id[0] }}</a>
-        <p>{{ entry.updated[0] }}</p>
-        <p>{{ entry.published[0] }}</p>
-        <p>{{ entry.title[0] }}</p>
+    <div v-for="(entry, $index) in entries" :key="$index">
 
 
-        <VueMarkdown class='summary' :source="entry.summary[0].replace(/\r?\n/g, ' ')" />
+      <v-card class='card'>
+        <v-card-title primary-title>
+          <div>
+            <h3 class="headline mb-0">{{entry.title[0]}}</h3>
+            <div class="authors">{{ entry.author.map(author => author.name[0]).join(', ') }}</div>
+            <div class="authors">published: {{ moment(entry.published[0]).format("YYYY-MM-DD") }}</div>
+          </div>
+        </v-card-title>
 
-        <p>{{ entry.author[0] }}</p>
-        <div v-for='author in entry.author'>
-          <a>{{ author.name[0] }}</a>
-        </div>
-        <hr />
-      </div>
+        <v-card-text class="headline">
+          <VueMarkdown class='summary' :source="entry.summary[0].replace(/\r?\n/g, ' ')" />
+        </v-card-text>
+
+        <v-card-actions>
+          <v-list-tile class="grow">
+            <v-layout align-center justify-end>
+              <v-btn flat :href=entry.id[0]>link</v-btn>
+              <span class="mr-1">·</span>
+              <v-btn fab dark small color="pink" :href="`${entry.id[0].replace(/\r?abs/, 'pdf')}.pdf`">
+                <v-icon dark>add</v-icon>
+              </v-btn>
+            </v-layout>
+          </v-list-tile>
+        </v-card-actions>
+      </v-card>
+
+    </div>
+    <infinite-loading ref="infiniteLoading" spinner="spiral" @infinite="infiniteHandler"> </infinite-loading>
   </div>
 </template>
 
@@ -77,7 +67,9 @@ import {
 
 import axiosbase from 'axios';
 import VueMarkdown from 'vue-markdown';
+import moment from 'moment';
 const parseString = require('xml2js').parseString;
+import InfiniteLoading from 'vue-infinite-loading';
 
 
 const axios = axiosbase.create({
@@ -88,25 +80,87 @@ const axios = axiosbase.create({
 @Component({
   components: {
     VueMarkdown,
+    InfiniteLoading,
   },
 })
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
-  private feed = {
-    entry: [],
-  };
-
-  get entries() {
-    return this.feed.entry;
+  private search_query = 'a';
+  private start = 0;
+  private entries: any[] = [];
+  get moment() {
+    return moment;
   }
 
-  public created() {
+
+  public init() {
+    this.entries = [];
+    this.start = 0;
+  }
+
+  public search() {
+    (document as any).activeElement.blur();
+
+
+    const params = {
+      search_query: `all:${this.search_query}`,
+      sortBy: 'lastUpdatedDate',
+      sortOrder: 'descending',
+      start: this.start,
+      max_result: 10,
+    };
     axios
-      .get('/query?search_query=all:electron&start=0&max_results=10')
+      .get('/query', {
+        params,
+      })
       .then((response) => {
         parseString(response.data, (err: any, result: any) => {
           console.log(result.feed);
-          this.feed = result.feed;
+          this.entries = result.feed.entry;
+        });
+      });
+    this.start += 10;
+  }
+
+  public created() {
+    this.init();
+    const params = {
+      search_query: `all:${this.search_query}`,
+      sortBy: 'lastUpdatedDate',
+      sortOrder: 'descending',
+      start: this.start,
+      max_result: 10,
+    };
+    axios
+      .get('/query', {
+        params,
+      })
+      .then((response) => {
+        parseString(response.data, (err: any, result: any) => {
+          console.log(result.feed);
+          this.entries = result.feed.entry;
+        });
+      });
+  }
+
+  public infiniteHandler($state: any) {
+    const params = {
+      search_query: `all:${this.search_query}`,
+      sortBy: 'lastUpdatedDate',
+      sortOrder: 'descending',
+      start: this.start,
+      max_result: 10,
+    };
+    axios
+      .get('/query', {
+        params,
+      })
+      .then((response) => {
+        parseString(response.data, (err: any, result: any) => {
+          console.log(result.feed);
+          this.entries.push(...result.feed.entry);
+          this.start += 10;
+          $state.loaded();
         });
       });
   }
@@ -115,28 +169,29 @@ export default class HelloWorld extends Vue {
 
 
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
+.card {
+  max-width: 720px;
+  margin: 0 auto;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+.authors {
+  text-align: left;
+  font-size: 15px;
 }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
 
-a {
-  color: #42b983;
+.headline {
+  text-align: left;
 }
 
 .summary {
   text-align: left;
-  max-width: 720px;
   margin: 0 auto;
+  font-size: 15px;
+  font-weight: normal;
+  color: #111;
+  margin-bottom: 2em;
+  line-height: 1.2;
 }
 
 </style>
