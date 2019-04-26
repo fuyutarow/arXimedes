@@ -1,25 +1,33 @@
 <template>
   <div>
     <v-toolbar color="pink" dark fixed>
-      <v-text-field v-model="search_query" v-on:keyup.enter='init();search();' class="mx-3" flat label="Search" prepend-inner-icon="search" solo-inverted></v-text-field>
+      <v-text-field v-model.trim="search_query" v-on:keyup.enter='search' class="mx-3" flat label="Search" prepend-inner-icon="search" solo-inverted></v-text-field>
     </v-toolbar>
 
     <v-container grid-list-xl>
       <v-layout>
         <v-flex>
           <v-card dark color="primary">
-            <v-card-text>one</v-card-text>
+            <v-card-text></v-card-text>
           </v-card>
         </v-flex>
         <v-flex>
           <v-card dark color="secondary">
-            <v-card-text>two</v-card-text>
+            <v-card-text></v-card-text>
           </v-card>
         </v-flex>
         <v-flex>
           <v-card dark color="accent">
-            <v-card-text>three</v-card-text>
+            <v-card-text></v-card-text>
           </v-card>
+        </v-flex>
+      </v-layout>
+      <v-layout>
+        <v-flex xs12 sm6 md6>
+          <v-radio-group v-model="sortBy" row>
+            <v-radio label="New arrivals" color="primary" value="lastUpdatedDate"></v-radio>
+            <v-radio label="relevance" color="primary" value="relevance"></v-radio>
+          </v-radio-group>
         </v-flex>
       </v-layout>
     </v-container>
@@ -63,7 +71,10 @@ import {
   Component,
   Prop,
   Vue,
+  Watch,
 } from 'vue-property-decorator';
+
+
 
 import axiosbase from 'axios';
 import VueMarkdown from 'vue-markdown';
@@ -87,31 +98,31 @@ export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
   private search_query = 'a';
   private start = 0;
+  private sortBy = 'lastUpdatedDate';
   private entries: any[] = [];
   get moment() {
     return moment;
   }
-
 
   public init() {
     this.entries = [];
     this.start = 0;
   }
 
-  public search() {
-    (document as any).activeElement.blur();
-
-
-    const params = {
+  get query_params() {
+    return {
       search_query: `all:${this.search_query}`,
-      sortBy: 'lastUpdatedDate',
-      sortOrder: 'descending',
+      sortBy: this.sortBy,
+      // sortOrder: 'descending',
       start: this.start,
       max_result: 10,
     };
+  }
+
+  public fetch() {
     axios
       .get('/query', {
-        params,
+        params: this.query_params,
       })
       .then((response) => {
         parseString(response.data, (err: any, result: any) => {
@@ -119,41 +130,26 @@ export default class HelloWorld extends Vue {
           this.entries = result.feed.entry;
         });
       });
+  }
+
+  @Watch('sortBy')
+  public search() {
+    (document as any).activeElement.blur();
+    this.init();
+    this.fetch();
     this.start += 10;
   }
 
+
   public created() {
     this.init();
-    const params = {
-      search_query: `all:${this.search_query}`,
-      sortBy: 'lastUpdatedDate',
-      sortOrder: 'descending',
-      start: this.start,
-      max_result: 10,
-    };
-    axios
-      .get('/query', {
-        params,
-      })
-      .then((response) => {
-        parseString(response.data, (err: any, result: any) => {
-          console.log(result.feed);
-          this.entries = result.feed.entry;
-        });
-      });
+    this.fetch();
   }
 
   public infiniteHandler($state: any) {
-    const params = {
-      search_query: `all:${this.search_query}`,
-      sortBy: 'lastUpdatedDate',
-      sortOrder: 'descending',
-      start: this.start,
-      max_result: 10,
-    };
     axios
       .get('/query', {
-        params,
+        params: this.query_params,
       })
       .then((response) => {
         parseString(response.data, (err: any, result: any) => {
