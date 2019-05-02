@@ -35,16 +35,15 @@
     <v-card class='card' v-for="(entry, $index) in entries" :key="$index">
       <v-card-title primary-title>
         <div>
-          <div class="headline text-sm-left font-weight-bold">
+          <div class="headline font-weight-bold">
             <vue-mathjax :formula="entry.title[0]"></vue-mathjax>
           </div>
-          <div class="text-sm-left">{{ entry.author.map(author => author.name[0]).join(', ') }}</div>
-          <div class="text-sm-left">published: {{ moment(entry.published[0]).format("YYYY-MM-DD") }}</div>
+          <div>{{ entry.author.map(author => author.name[0]).join(', ') }}</div>
+          <div>published: {{ moment(entry.published[0]).format("YYYY-MM-DD") }}</div>
         </div>
       </v-card-title>
 
-      <v-card-text class="subheading text-sm-left">
-        <!-- <v-card-text class="headline caption"> -->
+      <v-card-text class="subheading">
         <vue-mathjax :formula="entry.summary[0].replace(/\r?\n/g, ' ')"></vue-mathjax>
       </v-card-text>
       <v-card-actions>

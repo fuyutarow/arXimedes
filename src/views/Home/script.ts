@@ -7,7 +7,6 @@ import {
   Watch,
 } from 'vue-property-decorator';
 
-// const parseString = require('xml2js').parseString;
 import { parseString } from 'xml2js';
 import InfiniteLoading from 'vue-infinite-loading';
 
@@ -20,7 +19,7 @@ const axios = axiosbase.create({
     InfiniteLoading,
   },
 })
-export default class HelloWorld extends Vue {
+export default class Home extends Vue {
   @Prop() private msg!: string;
   get moment() { return moment; }
   get entries() { return this.$store.state.entries.list; }
