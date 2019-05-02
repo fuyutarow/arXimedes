@@ -14,5 +14,7 @@ export default new Vuex.Store({
     entries,
     query,
   },
-  plugins: [createPersistedState()],
+  plugins: [
+    createPersistedState({ storage: window.sessionStorage }),
+  ],
 });
