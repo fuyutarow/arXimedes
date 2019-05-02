@@ -1,6 +1,5 @@
 import axiosbase from 'axios';
 import moment from 'moment';
-import VueMarkdown from 'vue-markdown';
 import {
   Component,
   Prop,
@@ -13,12 +12,10 @@ import InfiniteLoading from 'vue-infinite-loading';
 
 const axios = axiosbase.create({
   baseURL : 'https://export.arxiv.org/api',
-
 });
 
 @Component({
   components : {
-    VueMarkdown,
     InfiniteLoading,
   },
 })
@@ -29,7 +26,6 @@ export default class HelloWorld extends Vue {
       start: 0,
       sortBy: 'lastUpdatedDate',
   };
-  // private entries: any[] = [];
   get moment() { return moment; }
   get entries() { return this.$store.state.entries.list; }
 
@@ -38,14 +34,6 @@ export default class HelloWorld extends Vue {
     this.$store.dispatch('entries/init');
     this.query.start = 0;
   }
-
-  // get query() {
-  //   return {
-  //     search_query: this.search_query,
-  //     start: this.start,
-  //     sortBy: this.sortBy,
-  //   }
-  // }
 
   get isStandalone() {
     return window.matchMedia('(display-mode: standalone)').matches;

@@ -20,7 +20,7 @@
     "vue-class-component": "^7.0.2",
     "vue-infinite-loading": "^2.4.4",
     "vue-katex": "^0.2.0",
-    "vue-markdown": "^2.2.4",
+    "vue-mathjax": "^0.0.8",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.3",
     "vuetify": "^1.5.13",
