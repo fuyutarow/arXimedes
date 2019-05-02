@@ -22,13 +22,10 @@ const axios = axiosbase.create({
 })
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
-  private  query = {
-      search_query: 'a',
-      start: 0,
-      sortBy: 'lastUpdatedDate',
-  };
   get moment() { return moment; }
   get entries() { return this.$store.state.entries.list; }
+  get query() { return this.$store.state.query.params; }
+  set query(value) { this.$store.state.dispatch('query/assign', value); }
 
 
   public init() {
