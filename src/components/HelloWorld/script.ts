@@ -52,13 +52,11 @@ export default class HelloWorld extends Vue {
   }
 
   get query_params() {
-    return {
+    return Object.assign({}, this.query, {
       search_query : `all:${this.query.search_query}`,
-      sortBy : this.query.sortBy,
       // sortOrder: 'descending',
-      start : this.query.start,
       max_result : 10,
-    };
+    });
   }
 
   public fetch() {
@@ -68,7 +66,6 @@ export default class HelloWorld extends Vue {
         })
         .then((response) => {
           parseString(response.data, (err: any, result: any) => {
-            console.log(result.feed);
             // this.entries = result.feed.entry;
             this.$store.dispatch('entries/init');
             this.$store.dispatch('entries/push', result.feed.entry);
@@ -76,7 +73,7 @@ export default class HelloWorld extends Vue {
         });
   }
 
-  @Watch('sortBy')
+  @Watch('query.sortBy')
   public search() {
     (document as any).activeElement.blur();
     this.init();
@@ -96,7 +93,6 @@ export default class HelloWorld extends Vue {
         })
         .then((response) => {
           parseString(response.data, (err: any, result: any) => {
-            console.log(result.feed);
             // this.entries.push(...result.feed.entry);
             this.$store.dispatch('entries/push', result.feed.entry);
             this.query.start += 10;
