@@ -15,6 +15,9 @@ Vue.use(Vuetify, {
 });
 
 
+import VueMathjax from 'vue-mathjax';
+Vue.use(VueMathjax);
+
 import VueMarkdown from 'vue-markdown';
 Vue.use(VueMarkdown);
 
