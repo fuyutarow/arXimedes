@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/axios": "^0.14.0",
     "@types/moment": "^2.13.0",
+    "@types/vue-markdown": "^2.2.1",
     "@types/xml2js": "^0.4.4",
     "core-js": "^2.6.5",
     "firebase": "^5.10.0",
@@ -20,8 +21,7 @@
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-infinite-loading": "^2.4.4",
-    "vue-katex": "^0.2.0",
-    "vue-mathjax": "^0.0.8",
+    "vue-markdown": "^2.2.4",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.3",
     "vuetify": "^1.5.13",

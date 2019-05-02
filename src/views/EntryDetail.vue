@@ -3,7 +3,7 @@
     <v-card-title primary-title>
       <div>
         <div class="headline font-weight-bold">
-          <vue-mathjax :formula="entry.title[0]"></vue-mathjax>
+          <vue-markdown>{{ entry.title[0] }}</vue-markdown>
         </div>
         <div>{{ displayAuthor }}</div>
         <div>published: {{ published }}</div>
@@ -11,7 +11,7 @@
     </v-card-title>
 
     <v-card-text class="subheading">
-      <vue-mathjax :formula="displaySummary"></vue-mathjax>
+      <vue-markdown>{{ displaySummary }}</vue-markdown>
     </v-card-text>
 
     <v-card-actions>
@@ -33,8 +33,13 @@ import {
   Vue,
   Watch,
 } from 'vue-property-decorator';
+import VueMarkdown from 'vue-markdown';
 
-@Component
+@Component({
+  components : {
+    VueMarkdown,
+  },
+})
 export default class EntryDetail extends Vue {
   get entry() {
     return this.$store.state.entryDetail.params;
