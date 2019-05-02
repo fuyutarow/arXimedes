@@ -7,7 +7,8 @@ import {
   Watch,
 } from 'vue-property-decorator';
 
-const parseString = require('xml2js').parseString;
+// const parseString = require('xml2js').parseString;
+import { parseString } from 'xml2js';
 import InfiniteLoading from 'vue-infinite-loading';
 
 const axios = axiosbase.create({
