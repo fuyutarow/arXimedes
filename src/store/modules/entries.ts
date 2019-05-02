@@ -3,7 +3,7 @@ import {Module, VuexModule, Mutation, Action} from 'vuex-module-decorators';
 
 
 @Module({ namespaced: true })
-export default class Counter2 extends VuexModule {
+export default class Entries extends VuexModule {
   public list: any[] = [];
 
   @Mutation public initEntries(entries: any[]) {
@@ -13,9 +13,9 @@ export default class Counter2 extends VuexModule {
     this.list.push(...entries);
   }
 
-  @Action({commit: 'pushEntries'})
-  public push(entries: any[]) {return entries; }
-
   @Action({commit: 'initEntries'})
   public init() {return; }
+
+  @Action({commit: 'pushEntries'})
+  public push(entries: any[]) {return entries; }
 }

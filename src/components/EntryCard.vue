@@ -16,9 +16,7 @@
     <v-card-actions>
       <v-list-tile class="grow">
         <v-layout align-center justify-end>
-          <v-btn flat :to="{ name: 'entryDetail', params: { entryId: entryId}}">more</v-btn>
-          <v-btn flat :href=entryId>link</v-btn>
-          <v-btn flat color="pink" :href="pdfURL">PDF</v-btn>
+          <v-btn flat v-on:click="onclickMore">more</v-btn>
         </v-layout>
       </v-list-tile>
     </v-card-actions>
@@ -37,6 +35,13 @@ import {
 @Component
 export default class EntryCard extends Vue {
   @Prop() private entry: any;
+
+  public onclickMore() {
+    this.$store.dispatch('entryDetail/put', this.entry);
+    this.$router.push({
+      name: 'entryDetail',
+    });
+  }
 
   get displaySummary() {
     const text = this.entry.summary[0].replace(/\r?\n/g, ' ');

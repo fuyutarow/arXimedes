@@ -11,11 +11,11 @@ export default class Query extends VuexModule {
   };
 
   @Mutation public initQuery() {
-  this.params = {
-    search_query: 'a',
-    start: 0,
-    sortBy: 'lastUpdatedDate',
-  };
+    this.params = {
+      search_query: 'a',
+      start: 0,
+      sortBy: 'lastUpdatedDate',
+    };
   }
   @Mutation public assignQuery(query: any) {
     this.params = Object.assign({}, this.params, query); }
@@ -25,5 +25,4 @@ export default class Query extends VuexModule {
 
   @Action({commit: 'assignQuery'})
   public assign(query: any) {return query; }
-
 }

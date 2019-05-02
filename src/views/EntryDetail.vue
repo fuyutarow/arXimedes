@@ -36,14 +36,8 @@ import {
 
 @Component
 export default class EntryDetail extends Vue {
-  get entries() {
-    return this.$store.state.entries.list;
-  }
-
   get entry() {
-    const entryId = this.$route.params.entryId;
-    return this.entries
-      .filter((entry: any) => entry.id[0] === entryId)[0];
+    return this.$store.state.entryDetail.params;
   }
 
   get displaySummary() {
@@ -67,7 +61,6 @@ export default class EntryDetail extends Vue {
   get pdfURL() {
     return `${this.entry.id[0].replace(/\r?abs/, 'pdf')}.pdf`;
   }
-
 }
 </script>
 
