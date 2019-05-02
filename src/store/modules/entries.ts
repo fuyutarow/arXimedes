@@ -7,15 +7,15 @@ export default class Counter2 extends VuexModule {
   public list: any[] = [];
 
   @Mutation public initEntries(entries: any[]) {
-    this.list = [ ]
+    this.list = [ ];
   }
   @Mutation public pushEntries(entries: any[]) {
     this.list.push(...entries);
   }
 
-  @Action({commit: 'pushEntries'}) 
+  @Action({commit: 'pushEntries'})
   public push(entries: any[]) {return entries; }
 
-  @Action({commit: 'initEntries'}) 
+  @Action({commit: 'initEntries'})
   public init() {return; }
 }

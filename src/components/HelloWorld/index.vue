@@ -51,11 +51,13 @@
         <v-card-actions>
           <v-list-tile class="grow">
             <v-layout align-center justify-end>
-              <v-btn flat :href=entry.id[0] target="_blank">link</v-btn>
+              <!-- <v-btn flat :href=entry.id[0] target="_blank">link</v-btn> -->
+              <v-btn flat :href=entry.id[0]>link</v-btn>
               <span class="mr-1">·</span>
-              <v-btn fab dark small color="pink" :href="`${entry.id[0].replace(/\r?abs/, 'pdf')}.pdf`" target="_blank">
-                <v-icon dark>add</v-icon>
-              </v-btn>
+              <!-- <v-btn fab dark small color="pink" :href="`${entry.id[0].replace(/\r?abs/, 'pdf')}.pdf`" target="_blank"> -->
+              <v-btn fab dark small color="pink" :href="`${entry.id[0].replace(/\r?abs/, 'pdf')}.pdf`">
+                  <v-icon dark>add</v-icon>
+                </v-btn>
             </v-layout>
           </v-list-tile>
         </v-card-actions>

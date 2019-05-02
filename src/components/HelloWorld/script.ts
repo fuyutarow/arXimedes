@@ -35,7 +35,7 @@ export default class HelloWorld extends Vue {
 
 
   public init() {
-    this.$store.dispatch('entries/init')
+    this.$store.dispatch('entries/init');
     this.query.start = 0;
   }
 
@@ -70,8 +70,8 @@ export default class HelloWorld extends Vue {
           parseString(response.data, (err: any, result: any) => {
             console.log(result.feed);
             // this.entries = result.feed.entry;
-            this.$store.dispatch('entries/init')
-            this.$store.dispatch('entries/push', result.feed.entry)
+            this.$store.dispatch('entries/init');
+            this.$store.dispatch('entries/push', result.feed.entry);
           });
         });
   }
@@ -85,8 +85,8 @@ export default class HelloWorld extends Vue {
   }
 
   public created() {
-    this.init();
-    this.fetch();
+    // this.init();
+    // this.fetch();
   }
 
   public infiniteHandler($state: any) {
@@ -98,7 +98,7 @@ export default class HelloWorld extends Vue {
           parseString(response.data, (err: any, result: any) => {
             console.log(result.feed);
             // this.entries.push(...result.feed.entry);
-            this.$store.dispatch('entries/push', result.feed.entry)
+            this.$store.dispatch('entries/push', result.feed.entry);
             this.query.start += 10;
             $state.loaded();
           });

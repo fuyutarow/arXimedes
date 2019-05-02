@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 
 import entries from './modules/entries';
 
@@ -21,4 +22,5 @@ export default new Vuex.Store({
   modules : {
     entries,
   },
+  plugins: [createPersistedState()],
 });
