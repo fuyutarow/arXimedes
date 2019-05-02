@@ -1,16 +1,18 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+
 Vue.use(Vuex);
+
 
 export default new Vuex.Store({
   state: {
-
+  entries: [],
   },
-  mutations: {
-
+  initEntriesAction(){
+    this.entries = []
   },
-  actions: {
-
+  pushEntriesAction(entries){
+    this.entries.push(...entries);
   },
 });

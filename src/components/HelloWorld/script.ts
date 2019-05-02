@@ -29,11 +29,13 @@ export default class HelloWorld extends Vue {
       start: 0,
       sortBy: 'lastUpdatedDate',
   };
-  private entries: any[] = [];
+  // private entries: any[] = [];
   get moment() { return moment; }
+  get entries() { return this.$store.state.entries.list; }
+
 
   public init() {
-    this.entries = [];
+    this.$store.dispatch('entries/init')
     this.query.start = 0;
   }
 
@@ -67,7 +69,9 @@ export default class HelloWorld extends Vue {
         .then((response) => {
           parseString(response.data, (err: any, result: any) => {
             console.log(result.feed);
-            this.entries = result.feed.entry;
+            // this.entries = result.feed.entry;
+            this.$store.dispatch('entries/init')
+            this.$store.dispatch('entries/push', result.feed.entry)
           });
         });
   }
@@ -93,7 +97,8 @@ export default class HelloWorld extends Vue {
         .then((response) => {
           parseString(response.data, (err: any, result: any) => {
             console.log(result.feed);
-            this.entries.push(...result.feed.entry);
+            // this.entries.push(...result.feed.entry);
+            this.$store.dispatch('entries/push', result.feed.entry)
             this.query.start += 10;
             $state.loaded();
           });
