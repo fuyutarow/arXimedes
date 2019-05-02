@@ -1,5 +1,4 @@
 import axiosbase from 'axios';
-import moment from 'moment';
 import {
   Component,
   Prop,
@@ -9,6 +8,7 @@ import {
 
 import { parseString } from 'xml2js';
 import InfiniteLoading from 'vue-infinite-loading';
+import { EntryCard } from '@/components';
 
 const axios = axiosbase.create({
   baseURL : 'https://export.arxiv.org/api',
@@ -17,11 +17,11 @@ const axios = axiosbase.create({
 @Component({
   components : {
     InfiniteLoading,
+    EntryCard,
   },
 })
 export default class Home extends Vue {
   @Prop() private msg!: string;
-  get moment() { return moment; }
   get entries() { return this.$store.state.entries.list; }
   get query() { return this.$store.state.query.params; }
   set query(value) { this.$store.state.dispatch('query/assign', value); }
@@ -39,8 +39,8 @@ export default class Home extends Vue {
   get query_params() {
     return Object.assign({}, this.query, {
       search_query : `all:${this.query.search_query}`,
-      // sortOrder: 'descending',
       max_result : 10,
+      // sortOrder: 'descending',
     });
   }
 
@@ -51,7 +51,6 @@ export default class Home extends Vue {
         })
         .then((response) => {
           parseString(response.data, (err: any, result: any) => {
-            // this.entries = result.feed.entry;
             this.$store.dispatch('entries/init');
             this.$store.dispatch('entries/push', result.feed.entry);
           });
@@ -78,7 +77,6 @@ export default class Home extends Vue {
         })
         .then((response) => {
           parseString(response.data, (err: any, result: any) => {
-            // this.entries.push(...result.feed.entry);
             this.$store.dispatch('entries/push', result.feed.entry);
             this.query.start += 10;
             $state.loaded();
