@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import { Home, EntryDetail } from './views';
+import { Home, EntryDetail, Saved } from './views';
 
 Vue.use(Router);
 
@@ -18,7 +18,11 @@ export default new Router({
       path: '/entryDetail',
       name: 'entryDetail',
       component: EntryDetail,
-
+    },
+    {
+      path: '/saved',
+      name: 'saved',
+      component: Saved,
     },
     {
       path: '/welcome',
