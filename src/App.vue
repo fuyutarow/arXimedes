@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <Toolbar />
+    <template v-if="this.$router.currentRoute.name!=='entryDetail'">
+      <Toolbar />
+    </template>
+    <template v-else>
+      <ToolbarBack />
+    </template>
     <router-view></router-view>
   </div>
 </template>
@@ -14,11 +19,13 @@ import {
 } from 'vue-property-decorator';
 import {
   Toolbar,
+  ToolbarBack,
 } from '@/components';
 
 @Component({
   components: {
     Toolbar,
+    ToolbarBack,
   },
 })
 export default class App extends Vue {}

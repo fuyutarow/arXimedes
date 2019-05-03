@@ -1,5 +1,5 @@
 <template>
-  <v-card class='card mx-auto'>
+  <v-card class='card mx-auto' ripple @click="onclickMore">
     <v-card-text>
       <vue-markdown class="title font-weight-medium">{{ displayTitle }}</vue-markdown>
       <vue-markdown class="subheading">{{ displaySummary }}</vue-markdown>
@@ -9,9 +9,6 @@
             {{ `${authors[0]} ` }}<i class="font-italic" v-if="authors.length>1">et al.</i>{{ `  ${published}` }}
           </v-list-tile-title>
         </v-list-tile-content>
-        <v-layout align-center justify-end>
-          <v-btn flat v-on:click="onclickMore">more</v-btn>
-        </v-layout>
       </v-list-tile>
     </v-card-text>
   </v-card>

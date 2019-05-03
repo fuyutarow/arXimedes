@@ -26,6 +26,7 @@
         </v-flex>
       </v-layout>
     </v-container>
+
     <v-bottom-sheet v-model="sheet">
       <v-list>
         <v-container>

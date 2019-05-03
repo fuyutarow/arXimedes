@@ -6,7 +6,6 @@ import {
   Watch,
 } from 'vue-property-decorator';
 
-
 import { parseString } from 'xml2js';
 import InfiniteLoading from 'vue-infinite-loading';
 import { EntryCard } from '@/components';
