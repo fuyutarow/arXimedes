@@ -16,7 +16,7 @@
       <v-list-tile class="grow">
         <v-layout align-center justify-end>
           <v-btn flat :href=entryId>link</v-btn>
-          <v-btn flat color="pink" :href="pdfURL">PDF</v-btn>
+          <v-btn flat color="pink" v-on:click="getPDF">PDF</v-btn>
         </v-layout>
       </v-list-tile>
     </v-card-actions>
@@ -62,6 +62,15 @@ export default class EntryDetail extends Vue {
 
   get pdfURL() {
     return `${this.entry.id[0].replace(/\r?abs/, 'pdf')}.pdf`;
+  }
+
+  public getPDF() {
+    const absId: string = this.entryId.split('/').slice(-1)[0];
+    this.$store.dispatch('savedEntryDict/add', {
+      key: absId,
+      value: this.entry,
+    });
+    location.href = this.pdfURL;
   }
 }
 </script>

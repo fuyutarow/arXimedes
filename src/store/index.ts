@@ -5,6 +5,7 @@ import createPersistedState from 'vuex-persistedstate';
 import query from './modules/query';
 import entries from './modules/entries';
 import entryDetail from './modules/entryDetail';
+import savedEntryDict from './modules/savedEntryDict';
 
 
 Vue.use(Vuex);
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     query,
     entries,
     entryDetail,
+    savedEntryDict,
   },
   plugins: [
     // createPersistedState({ storage: window.sessionStorage }),
