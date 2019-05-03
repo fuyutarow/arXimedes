@@ -1,25 +1,19 @@
 <template>
-  <v-card class='card'>
-    <v-card-title primary-title>
-      <div>
-        <div class="headline font-weight-bold">
-          <vue-markdown>{{ entry.title[0] }}</vue-markdown>
-        </div>
-        <div>{{ `${authors[0]} ` }}<i class="font-italic" v-if="authors.length>1">et al.</i>{{ `  ${published}` }}</div>
-      </div>
-    </v-card-title>
-
-    <v-card-text class="subheading">
-      <vue-markdown>{{ displaySummary }}</vue-markdown>
-    </v-card-text>
-
-    <v-card-actions>
+  <v-card class='card mx-auto'>
+    <v-card-text>
+      <vue-markdown class="title font-weight-medium">{{ displayTitle }}</vue-markdown>
+      <vue-markdown class="subheading">{{ displaySummary }}</vue-markdown>
       <v-list-tile class="grow">
+        <v-list-tile-content>
+          <v-list-tile-title class='body-1'>
+            {{ `${authors[0]} ` }}<i class="font-italic" v-if="authors.length>1">et al.</i>{{ `  ${published}` }}
+          </v-list-tile-title>
+        </v-list-tile-content>
         <v-layout align-center justify-end>
           <v-btn flat v-on:click="onclickMore">more</v-btn>
         </v-layout>
       </v-list-tile>
-    </v-card-actions>
+    </v-card-text>
   </v-card>
 </template>
 
@@ -34,7 +28,7 @@ import {
 import VueMarkdown from 'vue-markdown';
 
 @Component({
-  components : {
+  components: {
     VueMarkdown,
   },
 })
@@ -46,6 +40,10 @@ export default class EntryCard extends Vue {
     this.$router.push({
       name: 'entryDetail',
     });
+  }
+
+  get displayTitle() {
+    return this.entry.title[0].replace(/\r?\n/g, ' ');
   }
 
   get displaySummary() {

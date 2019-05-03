@@ -2,17 +2,14 @@
   <v-card class='card'>
     <v-card-title primary-title>
       <div>
-        <div class="headline font-weight-bold">
-          <vue-mathjax :formula="entry.title[0]"></vue-mathjax>
-        </div>
+        <vue-mathjax class="headline font-weight-bold" :formula="displayTitle" />
         <div>{{ displayAuthor }}</div>
         <div>published: {{ published }}</div>
       </div>
     </v-card-title>
 
     <v-card-text class="subheading">
-      <katex-element :expression="displaySummary" />
-      <vue-mathjax :formula="displaySummary"></vue-mathjax>
+      <vue-mathjax :formula="displaySummary" />
     </v-card-text>
 
     <v-card-actions>
@@ -39,6 +36,10 @@ import {
 export default class EntryDetail extends Vue {
   get entry() {
     return this.$store.state.entryDetail.params;
+  }
+
+  get displayTitle() {
+    return this.entry.title[0].replace(/\r?\n/g, ' ');
   }
 
   get displaySummary() {
