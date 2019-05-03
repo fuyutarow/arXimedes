@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <template v-if="this.$router.currentRoute.name!=='entryDetail'">
       <Toolbar />
     </template>
@@ -7,7 +7,7 @@
       <ToolbarBack />
     </template>
     <router-view></router-view>
-  </div>
+  </v-app>
 </template>
 
 <script lang='ts'>

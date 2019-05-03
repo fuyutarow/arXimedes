@@ -14,9 +14,12 @@
 
     <v-card-actions>
       <v-list-tile class="grow">
-        <v-layout align-center justify-end>
+        <v-layout align-center justify-start>
           <v-btn flat :href=entryId>link</v-btn>
-          <v-btn flat color="pink" v-on:click="getPDF">PDF</v-btn>
+          <!-- <v-btn color="pink" @click="getPDF"> -->
+          <v-btn color="pink" dark fab fixed bottom right @click="getPDF">
+            <v-icon>get_app</v-icon>
+          </v-btn>
         </v-layout>
       </v-list-tile>
     </v-card-actions>
