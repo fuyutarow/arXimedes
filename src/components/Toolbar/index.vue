@@ -1,11 +1,37 @@
 <template>
   <div>
-    <v-toolbar color="pink" dark fixed>
-      <v-toolbar-items>
-        <v-btn flat @click="onclickSearch">search</v-btn>
-        <v-btn flat to="/saved">saved</v-btn>
-      </v-toolbar-items>
-    </v-toolbar>
+    <template v-if="$vuetify.breakpoint.xsOnly">
+      <v-toolbar color="pink" dark fixed>
+        <v-toolbar-items>
+          <v-btn flat fab to="/" class="text-none block">
+            <img src="@/assets/img/logo.png" height=48px />
+          </v-btn>
+            <v-btn flat fab @click="onclickSearch">
+              <v-icon>search</v-icon>
+            </v-btn>
+            <v-btn flat fab to="/saved">
+              <v-icon>get_app</v-icon>
+            </v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+    </template>
+
+    <template v-else>
+      <v-toolbar color="pink" dark fixed>
+        <v-toolbar-items>
+          <v-btn flat to="/" class="text-none block">
+            <img src="@/assets/img/logo.png" height=48px />
+            <v-toolbar-title>
+              arXimedes.io
+            </v-toolbar-title>
+          </v-btn>
+          <v-btn flat @click="onclickSearch">search<v-icon>search</v-icon>
+          </v-btn>
+          <v-btn flat to="/saved">saved<v-icon>get_app</v-icon>
+          </v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+    </template>
 
     <v-container grid-list-xl>
       <v-layout>

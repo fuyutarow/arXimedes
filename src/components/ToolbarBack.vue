@@ -2,7 +2,7 @@
   <div>
     <v-toolbar color="pink" dark fixed>
       <v-toolbar-items>
-        <v-btn flat icon color="white" to="/">
+        <v-btn flat icon color="white" @click="$router.back()">
           <v-icon>arrow_back</v-icon>
         </v-btn>
       </v-toolbar-items>
