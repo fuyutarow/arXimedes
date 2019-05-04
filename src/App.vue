@@ -6,7 +6,9 @@
     <template v-else>
       <ToolbarBack />
     </template>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </v-app>
 </template>
 
