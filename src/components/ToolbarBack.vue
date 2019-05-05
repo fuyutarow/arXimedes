@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-toolbar color="pink" dark fixed>
-      <v-toolbar-items>
-        <v-btn flat icon color="white" @click="$router.back()">
-          <v-icon>arrow_back</v-icon>
-        </v-btn>
-      </v-toolbar-items>
+      <v-btn flat icon color="white" @click="$router.back()">
+        <v-icon>arrow_back</v-icon>
+      </v-btn>
+      <v-spacer></v-spacer>
+      <Avatar />
     </v-toolbar>
 
     <v-container grid-list-xl>
@@ -29,3 +29,20 @@
     </v-container>
   </div>
 </template>
+
+<script lang='ts'>
+import {
+  Component,
+  Prop,
+  Vue,
+  Watch,
+} from 'vue-property-decorator';
+import Avatar from '@/components/Avatar.vue';
+
+@Component({
+  components: {
+    Avatar,
+  },
+})
+export default class ToolbarBack extends Vue {}
+</script>

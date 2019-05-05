@@ -1,20 +1,24 @@
-import axiosbase from 'axios';
 import {
   Component,
   Prop,
   Vue,
   Watch,
 } from 'vue-property-decorator';
-
-
 import { parseString } from 'xml2js';
 
+import axiosbase from 'axios';
 const axios = axiosbase.create({
   baseURL : 'https://export.arxiv.org/api',
 });
 
-@Component
-export default class Home extends Vue {
+import Avatar from '@/components/Avatar.vue';
+
+@Component({
+  components : {
+    Avatar,
+  },
+})
+export default class Toolbar extends Vue {
   @Prop() private msg!: string;
   private sheet: boolean = false;
   get entries() { return this.$store.state.entries.list; }

@@ -17,8 +17,10 @@ export default class Query extends VuexModule {
       sortBy: 'lastUpdatedDate',
     };
   }
+
   @Mutation public assignQuery(query: any) {
-    this.params = Object.assign({}, this.params, query); }
+    this.params = Object.assign({}, this.params, query);
+  }
 
   @Action({commit: 'initQuery'})
   public init() {return; }
