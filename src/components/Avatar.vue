@@ -26,7 +26,7 @@
       </v-list>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn flat v-on="off">Cancel</v-btn>
+        <v-btn flat v-on="">Cancel</v-btn>
       </v-card-actions>
     </v-card>
   </v-menu>
