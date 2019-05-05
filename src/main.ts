@@ -21,6 +21,10 @@ Vue.use(VueMathjax);
 import VueMarkdown from 'vue-markdown';
 Vue.use(VueMarkdown);
 
+import firebase from 'firebase';
+import { default as config } from '@/../firebaseConfig.json';
+firebase.initializeApp(config);
+
 
 new Vue({
   router,

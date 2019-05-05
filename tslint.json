@@ -5,6 +5,7 @@
   ],
   "linterOptions": {
     "exclude": [
+      "*.json",
       "node_modules/**"
     ]
   },
