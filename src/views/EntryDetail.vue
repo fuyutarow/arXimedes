@@ -1,5 +1,5 @@
 <template>
-  <v-card class='card'>
+  <v-card class="card">
     <v-card-title primary-title>
       <div>
         <vue-mathjax class="headline font-weight-bold" :formula="displayTitle" />
@@ -7,7 +7,7 @@
         <div>published: {{ published }}</div>
       </div>
     </v-card-title>
-
+    {{ $store.state.entryDetail }}
     <v-card-text class="subheading">
       <vue-mathjax :formula="displaySummary" />
     </v-card-text>
@@ -15,7 +15,7 @@
     <v-card-actions>
       <v-list-tile class="grow">
         <v-layout align-center justify-start>
-          <v-btn flat :href=entryId>link</v-btn>
+          <v-btn flat :href="entryId">link</v-btn>
           <!-- <v-btn color="pink" @click="getPDF"> -->
           <v-btn color="pink" dark fab fixed bottom right @click="getPDF">
             <v-icon>get_app</v-icon>
@@ -28,12 +28,7 @@
 
 <script lang='ts'>
 import moment from 'moment';
-import {
-  Component,
-  Prop,
-  Vue,
-  Watch,
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component
 export default class EntryDetail extends Vue {
@@ -87,5 +82,4 @@ export default class EntryDetail extends Vue {
   overflow: scroll;
   word-wrap: break-word;
 }
-
 </style>

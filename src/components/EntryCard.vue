@@ -1,12 +1,14 @@
 <template>
-  <v-card class='card mx-auto' ripple @click="onclickMore">
+  <v-card class="card mx-auto" ripple @click="onclickMore">
     <v-card-text>
       <vue-markdown class="title font-weight-medium">{{ displayTitle }}</vue-markdown>
       <vue-markdown class="subheading">{{ displaySummary }}</vue-markdown>
       <v-list-tile class="grow">
         <v-list-tile-content>
-          <v-list-tile-title class='body-1'>
-            {{ `${authors[0]} ` }}<i class="font-italic" v-if="authors.length>1">et al.</i>{{ `  ${published}` }}
+          <v-list-tile-title class="body-1">
+            {{ `${authors[0]} ` }}
+            <i class="font-italic" v-if="authors.length>1">et al.</i>
+            {{ ` ${published}` }}
           </v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
@@ -16,12 +18,7 @@
 
 <script lang='ts'>
 import moment from 'moment';
-import {
-  Component,
-  Prop,
-  Vue,
-  Watch,
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import VueMarkdown from 'vue-markdown';
 
 @Component({
@@ -45,7 +42,10 @@ export default class EntryCard extends Vue {
 
   get displaySummary() {
     const text = this.entry.summary[0].replace(/\r?\n/g, ' ');
-    const truncated = text.split(/\s+/).slice(0, 30).join(' ');
+    const truncated = text
+      .split(/\s+/)
+      .slice(0, 30)
+      .join(' ');
     return `${truncated} ...`;
   }
 
@@ -64,7 +64,6 @@ export default class EntryCard extends Vue {
   get pdfURL() {
     return `${this.entry.id[0].replace(/\r?abs/, 'pdf')}.pdf`;
   }
-
 }
 </script>
 
@@ -77,5 +76,4 @@ export default class EntryCard extends Vue {
   overflow: scroll;
   word-wrap: break-word;
 }
-
 </style>

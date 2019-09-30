@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import {Module, VuexModule, Mutation, Action, MutationAction} from 'vuex-module-decorators';
 
 
