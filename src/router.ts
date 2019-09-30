@@ -11,22 +11,25 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'home',
+            redirect: {name: 'entry'},
+        },
+        {
+            name: 'entry',
+            path: '/entry',
             component: Home,
         },
         {
-            path: '/entryDetail',
             name: 'entryDetail',
-            component: EntryDetail,
+            path: '/entry/:id', component: EntryDetail,
         },
         {
-            path: '/saved',
             name: 'saved',
+            path: '/saved',
             component: Saved,
         },
         {
-            path: '/welcome',
             name: 'welcome',
+            path: '/welcome',
             component: () => import(/* webpackChunkName: "about" */ './views/Welcome.vue'),
         },
     ],

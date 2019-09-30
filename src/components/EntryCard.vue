@@ -33,7 +33,12 @@ export default class EntryCard extends Vue {
     this.$store.dispatch('entryDetail/put', this.entry);
     this.$router.push({
       name: 'entryDetail',
+      params: { id: this.entryId },
     });
+  }
+
+  get entryId() {
+    return this.entry.id[0].split('/').slice(-1)[0];
   }
 
   get displayTitle() {
@@ -55,14 +60,6 @@ export default class EntryCard extends Vue {
 
   get published() {
     return moment(this.entry.published[0]).format('YYYY-MM-DD');
-  }
-
-  get entryId() {
-    return `${this.entry.id[0]}`;
-  }
-
-  get pdfURL() {
-    return `${this.entry.id[0].replace(/\r?abs/, 'pdf')}.pdf`;
   }
 }
 </script>
