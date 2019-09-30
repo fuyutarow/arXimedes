@@ -13,15 +13,17 @@ Vue.use(Vuex);
 
 
 export default new Vuex.Store({
-  modules : {
-    query,
-    entries,
-    entryDetail,
-    savedEntryDict,
-    loginUser,
-  },
-  plugins: [
-    // createPersistedState({ storage: window.sessionStorage }),
-    createPersistedState(),
-  ],
+    modules: {
+        query,
+        entries,
+        entryDetail,
+        savedEntryDict,
+        loginUser,
+    },
+    plugins: [
+        // createPersistedState({ storage: window.sessionStorage }),
+        createPersistedState({
+            key: 'arXimedes.io',
+        }),
+    ],
 });

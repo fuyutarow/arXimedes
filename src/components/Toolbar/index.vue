@@ -3,31 +3,32 @@
     <v-toolbar color="pink" dark fixed>
       <template v-if="$vuetify.breakpoint.xsOnly">
         <v-btn flat fab to="/" class="text-none block">
-          <img src="@/assets/img/logo.png" height=48px ></img>
+          <img src="@/assets/img/logo.png" height="48px" />
         </v-btn>
         <v-btn flat fab @click="onclickSearch">
           <v-icon>search</v-icon>
         </v-btn>
-        <v-btn flat fab to="/saved">
-          <v-icon>get_app</v-icon>
-        </v-btn>
+        <!-- <v-btn flat fab to="/saved"> -->
+        <!--   <v-icon>get_app</v-icon> -->
+        <!-- </v-btn> -->
       </template>
       <template v-else>
         <v-btn flat to="/" class="text-none block">
-          <img src="@/assets/img/logo.png" height=48px />
-          <v-toolbar-title>
-            arXimedes.io
-          </v-toolbar-title>
+          <img src="@/assets/img/logo.png" height="48px" />
+          <v-toolbar-title>arXimedes.io</v-toolbar-title>
         </v-btn>
-        <v-btn flat @click="onclickSearch">search<v-icon>search</v-icon>
+        <v-btn flat @click="onclickSearch">
+          search
+          <v-icon>search</v-icon>
         </v-btn>
-        <v-btn flat to="/saved">saved<v-icon>get_app</v-icon>
-        </v-btn>
+        <!-- <v-btn flat to="/saved"> -->
+        <!--   saved -->
+        <!--   <v-icon>get_app</v-icon> -->
+        <!-- </v-btn> -->
       </template>
-      <v-spacer></v-spacer>
+      <v-spacer />
       <Avatar />
     </v-toolbar>
-
 
     <v-container grid-list-xl>
       <v-layout>
@@ -53,7 +54,15 @@
       <v-list>
         <v-container>
           <v-layout>
-            <v-text-field v-model.trim="query.search_query" v-on:keyup.enter='search' class="mx-3" flat label="Search" prepend-inner-icon="search" solo-inverted></v-text-field>
+            <v-text-field
+              v-model.trim="query.search_query"
+              v-on:keyup.enter="search"
+              class="mx-3"
+              flat
+              label="Search"
+              prepend-inner-icon="search"
+              solo-inverted
+            />
           </v-layout>
           <v-layout>
             <v-flex xs12 sm6 md6>

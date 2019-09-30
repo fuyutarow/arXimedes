@@ -32,8 +32,7 @@ export default class Toolbar extends Vue {
 
     public onclickSearch() {
         this.sheet = true;
-
-        this.$router.push({name: 'home'});
+        this.$router.push({name: 'entry'});
     }
 
     get isStandalone() {

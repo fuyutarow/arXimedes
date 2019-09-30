@@ -32,5 +32,10 @@ export default new Router({
             path: '/welcome',
             component: () => import(/* webpackChunkName: "about" */ './views/Welcome.vue'),
         },
+        {
+            name: '404',
+            path: '/*',
+            redirect: {name: 'entry'},
+        },
     ],
 });

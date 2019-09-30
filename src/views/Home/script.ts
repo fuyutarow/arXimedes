@@ -1,10 +1,5 @@
 import axiosbase from 'axios';
-import {
-    Component,
-    Prop,
-    Vue,
-    Watch,
-} from 'vue-property-decorator';
+import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
 
 import {parseString} from 'xml2js';
 import InfiniteLoading from 'vue-infinite-loading';
