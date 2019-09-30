@@ -1,54 +1,49 @@
 import Vue from 'vue';
-import {Module, VuexModule, Mutation, Action} from 'vuex-module-decorators';
+import {Module, VuexModule, Mutation, Action, MutationAction} from 'vuex-module-decorators';
 
 
 import firebase from 'firebase';
 
 const authFirebase = async () => {
-  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
-  const google = new firebase.auth.GoogleAuthProvider();
-  return await firebase
-    .auth()
-    .signInWithPopup(google)
-    .then((result: any) => {
-      // token = result.credential.accessToken;
-      // user = result.user;
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      const email = error.email;
-      const credential = error.credential;
-    });
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
+    const google = new firebase.auth.GoogleAuthProvider();
+    return await firebase
+        .auth()
+        .signInWithPopup(google)
+        .then((result: any) => {
+            // token = result.credential.accessToken;
+            // user = result.user;
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            const email = error.email;
+            const credential = error.credential;
+        });
 };
 
 
-@Module({ namespaced: true })
+@Module({namespaced: true})
 export default class LoginUser extends VuexModule {
-  public detail: any = {};
-  public token: string = '';
+    public detail: any = {};
+    public token: string = '';
 
-  @Mutation public init() {
-    this.detail = {};
-    this.token = '';
-  }
+    @Mutation public init() {
+        this.detail = {};
+        this.token = '';
+    }
 
-  @Mutation public assign(detailtoken: any) {
-    this.detail = detailtoken.detail;
-    this.token = detailtoken.token;
-  }
+    @MutationAction({mutate: ['detail', 'token']})
+    public async signin() {
+        await authFirebase();
+        const detail: any = await firebase.auth().currentUser;
+        const token: string = await firebase.auth().currentUser!.getIdToken(true);
+        return {detail, token};
+    }
 
-  @Action({commit: 'assign'})
-  public async signin() {
-    await authFirebase();
-    const detail: any = await firebase.auth().currentUser;
-    const token: string = await firebase.auth().currentUser!.getIdToken(true);
-    return { detail, token};
-  }
-
-  @Action({commit: 'init'})
-  public async signout() {
-    await firebase.auth().signOut();
-    return;
-  }
+    @Action({commit: 'init'})
+    public async signout() {
+        await firebase.auth().signOut();
+        return;
+    }
 }

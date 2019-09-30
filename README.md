@@ -1,4 +1,4 @@
-# arximedes
+# arXimedes.io
 
 ## Project setup
 ```
