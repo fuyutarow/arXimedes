@@ -1,8 +1,10 @@
 <template>
   <v-card class="card mx-auto" ripple @click="onclickMore">
+    <v-card-title>
+      <vue-mathjax :formula="displayTitle" class="title font-weight-medium" />
+    </v-card-title>
     <v-card-text>
-      <vue-markdown class="title font-weight-medium">{{ displayTitle }}</vue-markdown>
-      <vue-markdown class="subheading">{{ displaySummary }}</vue-markdown>
+      <vue-mathjax :formula="displaySummary" class="subheading" />
       <div>
         {{ `${authors[0]} ` }}
         <i class="font-italic" v-if="authors.length>1">et al.</i>
@@ -15,11 +17,11 @@
 <script lang='ts'>
 import moment from 'moment';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import VueMarkdown from 'vue-markdown';
+import { VueMathjax } from 'vue-mathjax';
 
 @Component({
   components: {
-    VueMarkdown,
+    VueMathjax,
   },
 })
 export default class EntryCard extends Vue {
