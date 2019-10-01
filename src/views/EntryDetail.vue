@@ -29,6 +29,12 @@
 import moment from 'moment';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
+import axiosbase from 'axios';
+const axios = axiosbase.create({
+  baseURL: 'https://export.arxiv.org/api',
+});
+import { parseString } from 'xml2js';
+
 @Component
 export default class EntryDetail extends Vue {
   get entry() {
@@ -54,7 +60,7 @@ export default class EntryDetail extends Vue {
   }
 
   get entryId() {
-    return `${this.entry.id[0].split('/').slice(-1)}`;
+    return this.$route.params.id;
   }
 
   get pdfURL() {
@@ -68,6 +74,22 @@ export default class EntryDetail extends Vue {
       value: this.entry,
     });
     location.href = this.pdfURL;
+  }
+
+  public async fetchEntry() {
+    await axios
+      .get('/query', {
+        params: { id_list: this.entryId },
+      })
+      .then((response) => {
+        parseString(response.data, (err: any, result: any) => {
+          this.$store.dispatch('entryDetail/put', result.feed.entry[0]);
+        });
+      });
+  }
+
+  public created() {
+    this.fetchEntry();
   }
 }
 </script>
