@@ -1,57 +1,30 @@
 <template>
   <div>
-    <v-toolbar color="pink" dark fixed>
+    <v-app-bar app color="indigo" dark>
       <v-btn flat icon color="white" @click="$router.back()">
-        <v-icon>arrow_back</v-icon>
+        <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
       <template v-if="$vuetify.breakpoint.xsOnly">
-        <v-btn flat fab to="/" class="text-none block">
-          <img src="@/assets/img/logo.png" height="48px" />
+        <v-btn text to="/" class="text-none block">
+          <img src="@/assets/logo.png" height="48px" />
         </v-btn>
-        <v-btn flat fab @click="onclickSearch">
-          <v-icon>search</v-icon>
+        <v-btn outlined fab small color="pink lighten-5" @click="onclickSearch">
+          <v-icon>mdi-magnify</v-icon>
         </v-btn>
-        <!-- <v-btn flat fab to="/saved"> -->
-        <!--   <v-icon>get_app</v-icon> -->
-        <!-- </v-btn> -->
       </template>
       <template v-else>
-        <v-btn flat to="/" class="text-none block">
-          <img src="@/assets/img/logo.png" height="48px" />
-          <v-toolbar-title>arXimedes.io</v-toolbar-title>
+        <v-btn to="/" text>
+          <img src="@/assets/logo.png" height="48px" />
+          <v-toolbar-title class="text-none">arXimedes.io</v-toolbar-title>
         </v-btn>
-        <v-btn flat @click="onclickSearch">
+        <v-btn flat outlined color="pink lighten-5" @click="onclickSearch">
           search
-          <v-icon>search</v-icon>
+          <v-icon>mdi-magnify</v-icon>
         </v-btn>
-        <!-- <v-btn flat to="/saved"> -->
-        <!--   saved -->
-        <!--   <v-icon>get_app</v-icon> -->
-        <!-- </v-btn> -->
       </template>
       <v-spacer />
       <Avatar />
-    </v-toolbar>
-
-    <v-container grid-list-xl>
-      <v-layout>
-        <v-flex>
-          <v-card dark color="primary">
-            <v-card-text></v-card-text>
-          </v-card>
-        </v-flex>
-        <v-flex>
-          <v-card dark color="secondary">
-            <v-card-text></v-card-text>
-          </v-card>
-        </v-flex>
-        <v-flex>
-          <v-card dark color="accent">
-            <v-card-text></v-card-text>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </v-container>
+    </v-app-bar>
 
     <v-bottom-sheet v-model="sheet">
       <v-list>
@@ -61,10 +34,11 @@
               v-model.trim="query.search_query"
               v-on:keyup.enter="search"
               class="mx-3"
-              flat
-              label="Search"
-              prepend-inner-icon="search"
-              solo-inverted
+              prepend-inner-icon="mdi-magnify"
+              outlined
+              clearable
+              rounded
+              solo
             />
           </v-layout>
           <v-layout>

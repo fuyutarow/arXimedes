@@ -2,47 +2,44 @@
   <v-menu transition="slide-y-transition" :nudge-width="200" bottom v-if="token">
     <template v-slot:activator="{ on }">
       <v-avatar v-on="on">
-        <img :src="loginUser.photoURL" ></img>
+        <img :src="loginUser.photoURL" />
       </v-avatar>
     </template>
     <v-card>
-      <v-list>
-        <v-list-tile avatar>
-          <v-list-tile-avatar>
-            <img :src="loginUser.photoURL" ></img>
-          </v-list-tile-avatar>
+      <v-list flat>
+        <v-list-item-group color="primary">
+          <v-list-item>
+            <v-list-item-avatar>
+              <v-img :src="loginUser.photoURL" />
+            </v-list-item-avatar>
 
-          <v-list-tile-content>
-            <v-list-tile-title>{{ loginUser.displayName }}</v-list-tile-title>
-          </v-list-tile-content>
-
-        </v-list-tile>
+            <v-list-item-content>
+              <v-list-item-title v-text="loginUser.displayName" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+        <v-list-item-group>
+          <v-list-item @click="signout">
+            <v-list-item-icon>
+              <v-icon>mdi-logout-variant</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>logout</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
       </v-list>
-      <v-divider></v-divider>
-      <v-list>
-        <v-list-tile>
-          <v-btn flat color="pink" @click="signout">sign out</v-btn>
-        </v-list-tile>
-      </v-list>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn flat v-on="">Cancel</v-btn>
-      </v-card-actions>
     </v-card>
   </v-menu>
 
-  <v-btn fab small outline color="pink lighten-5" @click="signin" v-else>
-    <v-icon>account_circle</v-icon>
+  <v-btn fab small outlined color="pink lighten-5" @click="signin" v-else>
+    <v-icon>mdi-account</v-icon>
   </v-btn>
 </template>
 
 <script lang='ts'>
-import {
-  Component,
-  Prop,
-  Vue,
-  Watch,
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import firebase from 'firebase';
 
 @Component
 export default class Avatar extends Vue {

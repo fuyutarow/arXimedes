@@ -3,15 +3,11 @@
     <v-card-text>
       <vue-markdown class="title font-weight-medium">{{ displayTitle }}</vue-markdown>
       <vue-markdown class="subheading">{{ displaySummary }}</vue-markdown>
-      <v-list-tile class="grow">
-        <v-list-tile-content>
-          <v-list-tile-title class="body-1">
-            {{ `${authors[0]} ` }}
-            <i class="font-italic" v-if="authors.length>1">et al.</i>
-            {{ ` ${published}` }}
-          </v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+      <div>
+        {{ `${authors[0]} ` }}
+        <i class="font-italic" v-if="authors.length>1">et al.</i>
+        {{ ` ${published}` }}
+      </div>
     </v-card-text>
   </v-card>
 </template>

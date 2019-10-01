@@ -15,9 +15,8 @@
       <v-list-tile class="grow">
         <v-layout align-center justify-start>
           <v-btn flat :href="`http://arxiv.org/abs/${entryId}`">link</v-btn>
-          <!-- <v-btn color="pink" @click="getPDF"> -->
-          <v-btn color="pink" dark fab fixed bottom right @click="getPDF">
-            <v-icon>get_app</v-icon>
+          <v-btn color="red lighten-1" dark fab fixed bottom right @click="getPDF">
+            <v-icon>mdi-file-pdf</v-icon>
           </v-btn>
         </v-layout>
       </v-list-tile>
@@ -28,6 +27,7 @@
 <script lang='ts'>
 import moment from 'moment';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { VueMathjax } from 'vue-mathjax';
 
 import axiosbase from 'axios';
 const axios = axiosbase.create({
@@ -35,7 +35,11 @@ const axios = axiosbase.create({
 });
 import { parseString } from 'xml2js';
 
-@Component
+@Component({
+  components: {
+    VueMathjax,
+  },
+})
 export default class EntryDetail extends Vue {
   get entry() {
     return this.$store.state.entryDetail.params;
