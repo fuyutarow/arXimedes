@@ -1,11 +1,6 @@
 <template>
   <v-app id="app">
-    <template v-if="this.$router.currentRoute.name!=='entryDetail'">
-      <Toolbar />
-    </template>
-    <template v-else>
-      <ToolbarBack />
-    </template>
+    <Toolbar />
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
@@ -13,21 +8,12 @@
 </template>
 
 <script lang='ts'>
-import {
-  Component,
-  Prop,
-  Vue,
-  Watch,
-} from 'vue-property-decorator';
-import {
-  Toolbar,
-  ToolbarBack,
-} from '@/components';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Toolbar } from '@/components';
 
 @Component({
   components: {
     Toolbar,
-    ToolbarBack,
   },
 })
 export default class App extends Vue {}
@@ -35,7 +21,7 @@ export default class App extends Vue {}
 
 <style lang="scss">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -54,5 +40,4 @@ export default class App extends Vue {}
     }
   }
 }
-
 </style>

@@ -32,7 +32,6 @@ export default class Toolbar extends Vue {
 
     public onclickSearch() {
         this.sheet = true;
-        this.$router.push({name: 'entry'});
     }
 
     get isStandalone() {
@@ -67,5 +66,6 @@ export default class Toolbar extends Vue {
         this.fetch();
         this.query.start += 10;
         this.sheet = false;
+        this.$router.push({name: 'entry'});
     }
 }

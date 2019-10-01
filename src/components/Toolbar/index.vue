@@ -1,6 +1,9 @@
 <template>
   <div>
     <v-toolbar color="pink" dark fixed>
+      <v-btn flat icon color="white" @click="$router.back()">
+        <v-icon>arrow_back</v-icon>
+      </v-btn>
       <template v-if="$vuetify.breakpoint.xsOnly">
         <v-btn flat fab to="/" class="text-none block">
           <img src="@/assets/img/logo.png" height="48px" />
