@@ -54,7 +54,7 @@ export default class Toolbar extends Vue {
             .then((response) => {
                 parseString(response.data, (err: any, result: any) => {
                     this.$store.dispatch('entries/init');
-                    this.$store.dispatch('entries/push', result.feed.entry);
+                    this.$store.dispatch('entries/pushFeedEntries', result.feed.entry);
                 });
             });
     }

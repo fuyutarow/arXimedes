@@ -9,6 +9,13 @@ const axios = axiosbase.create({
     baseURL: 'https://export.arxiv.org/api',
 });
 
+interface Entry {
+    id: string;
+    data: any;
+    stared: boolean;
+}
+
+
 @Component({
     components: {
         InfiniteLoading,
@@ -33,7 +40,7 @@ export default class Home extends Vue {
             })
             .then((response) => {
                 parseString(response.data, (err: any, result: any) => {
-                    this.$store.dispatch('entries/push', result.feed.entry);
+                    this.$store.dispatch('entries/pushFeedEntries', result.feed.entry);
                     this.query.start += 10;
                     $state.loaded();
                 });

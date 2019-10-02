@@ -31,20 +31,16 @@ export default class EntryCard extends Vue {
     this.$store.dispatch('entryDetail/put', this.entry);
     this.$router.push({
       name: 'entryDetail',
-      params: { id: this.entryId },
+      params: { id: this.entry.id },
     });
   }
 
-  get entryId() {
-    return this.entry.id[0].split('/').slice(-1)[0];
-  }
-
   get displayTitle() {
-    return this.entry.title[0].replace(/\r?\n/g, ' ');
+    return this.entry.data.title[0].replace(/\r?\n/g, ' ');
   }
 
   get displaySummary() {
-    const text = this.entry.summary[0].replace(/\r?\n/g, ' ');
+    const text = this.entry.data.summary[0].replace(/\r?\n/g, ' ');
     const truncated = text
       .split(/\s+/)
       .slice(0, 30)
@@ -53,11 +49,11 @@ export default class EntryCard extends Vue {
   }
 
   get authors() {
-    return this.entry.author.map((author: any) => author.name[0]);
+    return this.entry.data.author.map((author: any) => author.name[0]);
   }
 
   get published() {
-    return moment(this.entry.published[0]).format('YYYY-MM-DD');
+    return moment(this.entry.data.published[0]).format('YYYY-MM-DD');
   }
 }
 </script>

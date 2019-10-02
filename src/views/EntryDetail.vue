@@ -29,10 +29,6 @@ import moment from 'moment';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { VueMathjax } from 'vue-mathjax';
 
-import axiosbase from 'axios';
-const axios = axiosbase.create({
-  baseURL: 'https://export.arxiv.org/api',
-});
 import { parseString } from 'xml2js';
 
 @Component({
@@ -46,21 +42,21 @@ export default class EntryDetail extends Vue {
   }
 
   get displayTitle() {
-    return this.entry.title[0].replace(/\r?\n/g, ' ');
+    return this.entry.data.title[0].replace(/\r?\n/g, ' ');
   }
 
   get displaySummary() {
-    const text = this.entry.summary[0].replace(/\r?\n/g, ' ');
+    const text = this.entry.data.summary[0].replace(/\r?\n/g, ' ');
     return text;
   }
 
   get displayAuthor() {
-    const authors = this.entry.author.map((author: any) => author.name[0]);
+    const authors = this.entry.data.author.map((author: any) => author.name[0]);
     return authors.join(' ');
   }
 
   get published() {
-    return moment(this.entry.published[0]).format('YYYY-MM-DD');
+    return moment(this.entry.data.published[0]).format('YYYY-MM-DD');
   }
 
   get entryId() {
@@ -71,8 +67,12 @@ export default class EntryDetail extends Vue {
     return `http://arxiv.org/pdf/${this.entryId}.pdf`;
   }
 
+  get absIdList() {
+    return this.entry.data.id;
+  }
+
   public getPDF() {
-    const absId: string = this.entryId.split('/').slice(-1)[0];
+    const absId: string = this.absIdList[0];
     this.$store.dispatch('savedEntryDict/add', {
       key: absId,
       value: this.entry,
@@ -81,7 +81,7 @@ export default class EntryDetail extends Vue {
   }
 
   public async fetchEntry() {
-    await axios
+    await this.$http
       .get('/query', {
         params: { id_list: this.entryId },
       })
