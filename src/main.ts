@@ -20,6 +20,15 @@ const config = {
 firebase.initializeApp(config);
 
 
+Vue.prototype.$db = firebase.firestore();
+
+
+declare module 'vue/types/vue' {
+    interface Vue {
+        $db: any;
+    }
+}
+
 new Vue({
     router,
     store,

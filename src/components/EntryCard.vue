@@ -1,16 +1,30 @@
 <template>
-  <v-card class="card mx-auto" ripple @click="onclickMore">
-    <v-card-title>
+  <v-card class="card mx-auto">
+    <v-card-title @click="onclickMore">
       <vue-mathjax :formula="displayTitle" class="title font-weight-medium" />
-    </v-card-title>
-    <v-card-text>
-      <vue-mathjax :formula="displaySummary" class="subheading" />
-      <div>
+      <span class="grey--text subtitle-1">
         {{ `${authors[0]} ` }}
         <i class="font-italic" v-if="authors.length>1">et al.</i>
         {{ ` ${published}` }}
-      </div>
+      </span>
+    </v-card-title>
+    <v-card-text @click="onclickMore">
+      {{ entry.id }}
+      <vue-mathjax :formula="displaySummary" class="subheading" />
     </v-card-text>
+    <v-card-actions>
+      <div class="flex-grow-1"></div>
+      <template v-if="entry.stared">
+        <v-btn icon color="amber" @click="breakStar">
+          <v-icon>mdi-star</v-icon>
+        </v-btn>
+      </template>
+      <template v-else>
+        <v-btn icon @click="makeStar">
+          <v-icon>mdi-star</v-icon>
+        </v-btn>
+      </template>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -18,6 +32,7 @@
 import moment from 'moment';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { VueMathjax } from 'vue-mathjax';
+import firebase from 'firebase';
 
 @Component({
   components: {
@@ -54,6 +69,28 @@ export default class EntryCard extends Vue {
 
   get published() {
     return moment(this.entry.data.published[0]).format('YYYY-MM-DD');
+  }
+
+  public breakStar() {
+    this.entry.stared = false;
+    const uid = this.$store.state.loginUser.detail.uid;
+    this.$db
+      .collection('user')
+      .doc(uid)
+      .update({
+        starList: firebase.firestore.FieldValue.arrayRemove(this.entry.id),
+      });
+  }
+
+  public makeStar() {
+    this.entry.stared = true;
+    const uid = this.$store.state.loginUser.detail.uid;
+    this.$db
+      .collection('user')
+      .doc(uid)
+      .update({
+        starList: firebase.firestore.FieldValue.arrayUnion(this.entry.id),
+      });
   }
 }
 </script>
