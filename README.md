@@ -1,4 +1,5 @@
 # arximedes.io
+Hosting it in HOST3
 
 ## Project setup
 ```
